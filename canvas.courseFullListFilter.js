@@ -155,13 +155,19 @@ function buildList() {
 				state = 'Published';
 				break;
 		}
-		window.courses[i].courseList = $('<tr />').css({cursor: 'pointer'}).data({href: '/courses/' + course.id}).html('<td>' + course.id + '</td><td style="word-wrap: break-word;">' + course.course_code + '</td><td style="word-wrap: break-word;">' + course.name + '</td><td style="word-wrap: break-word;">' + (course.sis_course_id !== null ? course.sis_course_id : '') + '</td><td>' + state + '</td><td><div class="ic-Table__actions"><a class="al-trigger btn btn-small" role="button" href="#"><i class="icon-settings"></i><i class="icon-mini-arrow-down"></i><span class="screenreader-only">Actions</span></a><ul id="courseMenu-' + course.id + 'item-1" class="al-options" role="menu" tabindex="0" aria-hidden="true" aria-expanded="false" aria-activedescendant="courseMenu-' + course.id + '-item-2"><li role="presentation"><a href="/courses/' + course.id + '/settings" class="icon-settings" id="courseMenu-' + course.id + '-item-2" tabindex="-1" role="menuitem">Settings</a></li><li role="presentation"><a href="/courses/' + course.id + '/statistics" class="icon-stats" id="courseMenu-' + course.id + '-item-3" tabindex="-1" role="menuitem">Statistics</a></li></ul></div></td>').on('mousedown', function(e) {
-			if(e.shiftKey || e.ctrlKey || e.metaKey || e.which == 2) {
-				window.open($(this).data('href'), '_blank');
-			} else {
-				window.location = $(this).data('href');
+		var links = $('<div />').addClass('ic-Table__actions').html('<a class="al-trigger btn btn-small" role="button" href="#"><i class="icon-settings"></i><i class="icon-mini-arrow-down"></i><span class="screenreader-only">Actions</span></a><ul id="courseMenu-' + course.id + 'item-1" class="al-options" role="menu" tabindex="0" aria-hidden="true" aria-expanded="false" aria-activedescendant="courseMenu-' + course.id + '-item-2"><li role="presentation"><a href="/courses/' + course.id + '/settings" class="icon-settings" id="courseMenu-' + course.id + '-item-2" tabindex="-1" role="menuitem">Settings</a></li><li role="presentation"><a href="/courses/' + course.id + '/statistics" class="icon-stats" id="courseMenu-' + course.id + '-item-3" tabindex="-1" role="menuitem">Statistics</a></li></ul>').on('mousedown', function(e) {
+			e.stopPropagation();
+		});
+		window.courses[i].courseList = $('<tr />').css({cursor: 'pointer'}).data({href: '/courses/' + course.id}).html('<td>' + course.id + '</td><td style="word-wrap: break-word;">' + course.course_code + '</td><td style="word-wrap: break-word;">' + course.name + '</td><td style="word-wrap: break-word;">' + (course.sis_course_id !== null ? course.sis_course_id : '') + '</td><td>' + state + '</td><td></td>').on('mousedown', function(e) {
+			if(e.which !== 3) {
+				if(e.shiftKey || e.ctrlKey || e.metaKey || e.which == 2) {
+					window.open($(this).data('href'), '_blank');
+				} else {
+					window.location = $(this).data('href');
+				}
 			}
 		});
+		window.courses[i].courseList.find('td:last').append(links);
 	}
 	replaceList(0);
 }
