@@ -3,6 +3,26 @@ This is a userscript designed to replace the Canvas LMS' "Courses List" with a c
 
 [**Canvas LMS - REST API and Extensions Documentation**](https://canvas.instructure.com/doc/api/index.html)
 
+#### Table of Contents
+- [Changelog](#changelog)
+- [Dependencies](#dependencies)
+- [Warning](#warning)
+- [How-To Use](#how-to-use)
+
+#### Changelog
+6/14/2017
+- Renamed the script file for easier installation to userscript managers
+- Added **@updateURL** to the header
+- Fixed filtering issue where two results in a row would result in the second result being ignored
+- Split all lines to be ~80 characters in length (tab = 4 spaces)
+  - **Note**: I didn't use a script so that I could try to add readability as I went through and did this
+  - I didn't enforce this if it was 1-2 character past
+- Fixed a few comments, primarily surrounding function returns
+- Added **convertList** function with option to toggle it or **replaceList**
+- Separated the list table building into the **buildListTable** function
+- Removed unused global variables
+- Added optional filtering/display labels
+
 #### Dependencies
 - Userscript Manager
   - [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
