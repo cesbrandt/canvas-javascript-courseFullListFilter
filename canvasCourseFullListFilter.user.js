@@ -3,7 +3,7 @@
 // @namespace     https://github.com/cesbrandt/canvas-javascript-courseFullListFilter
 // @description   Userscript designed to replace with Canvas LMS "Courses List" with a complete filterable and paginated list.
 // @include       /^https?:\/\/[^\.]+\.((beta|test)\.)?instructure\.com\/accounts\/\d+$/
-// @version       1.1
+// @version       1.2
 // @updateURL     https://raw.githubusercontent.com/cesbrandt/canvas-javascript-courseFullListFilter/master/canvasCourseFullListFilter.user.js
 // ==/UserScript==
 
@@ -155,7 +155,7 @@ function getCourses() {
 		window.courses = courses;
 		buildList();
 	};
-	callAPI([view, viewID, 'courses'], 1, [{}], oncomplete);
+	callAPI([view, viewID, 'courses'], 1, [{include: ['teachers']}], oncomplete);
 	return;
 }
 
@@ -167,6 +167,13 @@ function getCourses() {
 function buildList() {
 	for(var i = 0; i < window.courses.length; i++) {
 		var course = window.courses[i];
+
+		var teachers = '';
+		for(var j = 0; j < course.teachers.length; j++) {
+			teachers += (j > 0 ? (', ' + ((j === course.teachers.length - 1 && course.teachers.length > 1) ? 'and ' : '')) : '') + '<a href="' + course.teachers[j].html_url + '">' + course.teachers[j].display_name + '</a>';
+		}
+		teachers = teachers === '' ? 'None' : teachers;
+
 		var state = 'Unknown';
 		switch(course.workflow_state) {
 			case 'unpublished':
@@ -222,6 +229,7 @@ function buildList() {
 				'<td style="word-wrap: break-word;">' + course.course_code +
 					'</td>' +
 				'<td style="word-wrap: break-word;">' + course.name + '</td>' +
+				'<td style="word-wrap: break-word;">' + teachers + '</td>' +
 				'<td style="word-wrap: break-word;">' +
 					(course.sis_course_id !== null ? course.sis_course_id : '') +
 					'</td>' +
@@ -261,6 +269,7 @@ function buildListTable(page) {
 					'<th>ID</th>' +
 					'<th>Course Code</th>' +
 					'<th>Name</th>' +
+					'<th>Teacher(s)</th>' +
 					'<th>SIS ID</th>' +
 					'<th>State</th>' +
 					'<th>Links</th>' +
@@ -401,6 +410,24 @@ function sortList() {
 			});
 		});
 	}
+
+	var testTerms = $('#filterByTeacherName').val();
+	if(testTerms !== '') {
+		testTerms = testTerms.split(/\s+/).map(function(term) {
+			return new RegExp(term, 'i');
+		});
+		filtered = filtered.filter(function(course) {
+			if(course.teachers.length > 0) {
+				return testTerms.every(function(term) {
+					return course.teachers.some(function(teacher) {
+						return term.test(teacher.display_name);
+					});
+				});
+			}
+			return false;
+		});
+	}
+
 	if($('#filterTermID option:selected').val() !== '') {
 		filtered = $.grep(filtered, function(course) {
 			return course.enrollment_term_id === parseInt(
@@ -525,6 +552,25 @@ function sortList() {
 												'') +
 					'<input type="text" id="filterByName" placeholder="Course ' +
 						'Name"' + (labeled ? ' style="margin: 0;"' : '') + '>' +
+					(labeled ?
+											'</div>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
+							'</li>' +
+							'<li>' +
+								'<div class="ig-row">' +
+									'<div class="ig-row__layout">' +
+										'<div class="ig-info">' +
+											'<label for="filterTermID" ' +
+												'class="ic-Label ig-title" ' +
+												'style="display: inline;">' +
+												'Filter By Teacher(s):</label>' +
+											'<div class="ig-details" ' +
+												'style="display: inline;">' :
+												'&nbsp;') +
+					'<input type="text" id="filterByTeacherName" placeholder="' +
+						'Teacher Name(s)"' + (labeled ? ' style="margin: 0;"' : '') + '>' +
 					(labeled ?
 											'</div>' +
 										'</div>' +
