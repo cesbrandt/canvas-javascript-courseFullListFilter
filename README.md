@@ -42,7 +42,8 @@ This is a userscript designed to replace the Canvas LMS' "Courses List" with a c
 2. Enabled the userscript
 3. Access the "Courses List" of any subaccount in the Canvas LMS
 4. Use the filters to narrow your results:
-   - **Course Name**: Accepts multiple terms and compares them against the **Course Name** of all shells for matches of all terms (case-insensitive). (i.e., If you search for "WORKING 201701", it'll return "201701 Miami Working ENG480" because it contains "WORKING" ***AND*** "201701", but it won't return "201701 Miami Sandbox ENG480" because it is missing the "WORKING" term.)
+   - **Course Name**: Accepts multiple terms and compares them against the **Course Name** of all shells for matches of all terms (case-insensitive) for a complete match. (i.e., If you search for "WORKING 201701", it'll return "201701 Miami Working ENG480" because it contains "WORKING" ***AND*** "201701", but it won't return "201701 Miami Sandbox ENG480" because it is missing the "WORKING" term.)
+   - **Teacher(s)**: Accepts multiple terms and compares them against all **Teacher(s)** of each shell (case-insensitive) for a complete match. (i.e., If you search for "Smith Jones", it'll return courses with: "Aaron Smith" and "Jones McMillion"; "James Smithemson" and "Eric Jones"; "Smith Jones"; "Jones Smith")
    - **Term Filter**: This is literally a clone() of the default Canvas term filter, but it now serves this system (which doesn't have to reload the page when changing filters).
    - **Sort By**: Mostly a clone of the Canvas sorter, but with the ability to sort by the "Course Code", in addition to the original "Course Name" and "Creation Date" options.
    - **Display x Shells**: How many courses do you want to see per page? The default is **50**, but additional options are **10**, **25**, **100**, and **All** (**All** is not recommended for large subaccounts!).
