@@ -10,6 +10,9 @@ This is a userscript designed to replace the Canvas LMS' "Courses List" with a c
 - [How-To Use](#how-to-use)
 
 #### Changelog
+6/29/2017
+- Added **Filter by Teacher(s)**
+
 6/14/2017
 - Renamed the script file for easier installation to userscript managers
 - Added **@updateURL** to the header
