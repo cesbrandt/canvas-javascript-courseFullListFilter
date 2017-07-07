@@ -3,7 +3,7 @@
 // @namespace     https://github.com/cesbrandt/canvas-javascript-courseFullListFilter
 // @description   Userscript designed to replace with Canvas LMS "Courses List" with a complete filterable and paginated list.
 // @include       /^https?:\/\/[^\.]+\.((beta|test)\.)?instructure\.com\/accounts\/\d+$/
-// @version       1.2
+// @version       1.3
 // @updateURL     https://raw.githubusercontent.com/cesbrandt/canvas-javascript-courseFullListFilter/master/canvasCourseFullListFilter.user.js
 // ==/UserScript==
 
@@ -411,7 +411,7 @@ function sortList() {
 		});
 	}
 
-	var testTerms = $('#filterByTeacherName').val();
+	testTerms = $('#filterByTeacherName').val();
 	if(testTerms !== '') {
 		testTerms = testTerms.split(/\s+/).map(function(term) {
 			return new RegExp(term, 'i');
@@ -457,35 +457,23 @@ function sortList() {
 	var regexAlpha = /[^a-zA-Z]/g;
 	var regexNumeric = /[^0-9]/g;
 	var sorted = filtered.sort(function(course1, course2) {
-		course1SortBy = course1[sortBy[0]].toString().toUpperCase();
-		course2SortBy = course2[sortBy[0]].toString().toUpperCase();
-		var course1Numeric = parseInt(course1SortBy, 10);
-		var course2Numeric = parseInt(course2SortBy, 10);
-
-		if(isNaN(course1Numeric) && isNaN(course2Numeric)) {
-			var course1Alpha = course1SortBy.replace(regexAlpha, '');
-			var course2Alpha = course2SortBy.replace(regexAlpha, '');
-			if(course1Alpha === course2Alpha) {
-				var course1Numeric2 = parseInt(
-					course1SortBy.replace(regexNumeric, ''),
-					10
-				);
-				var course2Numeric2 = parseInt(
-					course2SortBy.replace(regexNumeric, ''),
-					10
-				);
-				return course1Numeric2 === course2Numeric2 ? 0 :
-					course1Numeric2 > course2Numeric2 ? 1 : -1;
-			} else {
-				return course1Alpha > course2Alpha ? 1 : -1;
+		var course1Sort = [];
+		var course2Sort = [];
+		course1[sortBy[0]].toString().toUpperCase().replace(/(\d+)|(\D+)/g, function($0, $1, $2) {
+			course1Sort.push([$1 || Infinity, $2 || '']);
+		});
+		course2[sortBy[0]].toString().toUpperCase().replace(/(\d+)|(\D+)/g, function($0, $1, $2) {
+			course2Sort.push([$1 || Infinity, $2 || '']);
+		});
+		while(course1Sort.length && course2Sort.length) {
+			var course1SortVal = course1Sort.shift();
+			var course2SortVal = course2Sort.shift();
+			var comparison = (course1SortVal[0] - course2SortVal[0]) || course1SortVal[1].localeCompare(course2SortVal[1]);
+			if(comparison) {
+				return comparison;
 			}
-		} else if(isNaN(course1Numeric)) {
-			return 1;
-		} else if(isNaN(course2Numeric)) {
-			return -1;
-		} else {
-			return course1Numeric > course2Numeric ? 1 : -1;
 		}
+		return course1Sort.length - course2Sort.length;
 	});
 	sorted = sortBy[1] === 1 ? sorted : sorted.reverse();
 	window.sortedList = [];
