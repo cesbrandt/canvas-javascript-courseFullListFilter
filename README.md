@@ -10,6 +10,9 @@ This is a userscript designed to replace the Canvas LMS' "Courses List" with a c
 - [How-To Use](#how-to-use)
 
 #### Changelog
+7/7/2017
+- Fixed **Sorting** function issue where numbers were not being properly accounted for
+
 6/29/2017
 - Added **Filter by Teacher(s)**
 
