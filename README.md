@@ -1,4 +1,10 @@
 # canvas-javascript-courseFullListFilter
+## Update 2018-03-05
+This script is now **DEPRECATED** due to Instructure having released their own version as part of the official UI. The script will still work so long as the new UI is disabled.
+
+For more information regarding the new UI, please check out the release notes: https://community.canvaslms.com/docs/DOC-14284#jive_content_id_Courses
+
+## Original 2018-07-09
 This is a userscript designed to replace the Canvas LMS' "Courses List" with a complete filterable and paginated list.
 
 [**Canvas LMS - REST API and Extensions Documentation**](https://canvas.instructure.com/doc/api/index.html)
