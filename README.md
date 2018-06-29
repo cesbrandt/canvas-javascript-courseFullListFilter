@@ -1,4 +1,12 @@
 # canvas-javascript-courseFullListFilter
+## Update 2018-06-29
+I have recieved a few messages inquiring about using the script for self-hosted instances of Canvas. The script was never tested with self-hosted Canvas, but should still work so long as the new UI is disabled. However, self-hosted Canvas was never supported, thus the status of **OBSOLETE** will be maintained.
+
+## Update 2018-06-23
+This script is now **OBSOLETE** due to Instructure having made their own version mandatory for all Instructure-hosted sites.
+
+For more information regarding the change from optional to mandatory, please check out the release notes: https://community.canvaslms.com/docs/DOC-14759#jive_content_id_Course_and_People_Search_Enforcement
+
 ## Update 2018-03-05
 This script is now **DEPRECATED** due to Instructure having released their own version as part of the official UI. The script will still work so long as the new UI is disabled.
 
