@@ -1,4 +1,4 @@
-# canvas-javascript-courseFullListFilter
+# (OBSOLETE) canvas-javascript-courseFullListFilter
 ## Update 2018-06-29
 I have recieved a few messages inquiring about using the script for self-hosted instances of Canvas. The script was never tested with self-hosted Canvas, but should still work so long as the new UI is disabled. However, self-hosted Canvas was never supported, thus the status of **OBSOLETE** will be maintained.
 
